@@ -11,6 +11,7 @@ import numpy as np
 import threading
 import uuid
 import repository as rp
+import os
 
 df_lp_blck_g = pd.DataFrame(columns = ['mtr_no','Real_time_Clock_Date_and_Time','Block_energy_kWhImport', 'Block_energykVAhImport','Block_energykvarh_Q2'])
 
@@ -63,7 +64,7 @@ class Loadprofile():
         Reactive_energy_low  = 0
         def prvar(__x):
             print traceback.extract_stack(limit=2)[0][3][6:][:-1],"=",__x
-        prvar(Cumulative_energykWhImport)
+        #prvar(Cumulative_energykWhImport)
         l1=   [rp.pre_value_Real_time_Clock_Date_and_Time         + str(Real_time_Clock_Date_and_Time)         + rp.post_value, 
                rp.pre_value_Battery_voltage                       + str(Battery_voltage)                       + rp.post_value,
                rp.pre_value_GSM_field_Strenth                     + str(GSM_field_Strength)                    + rp.post_value, 
@@ -114,16 +115,19 @@ while True:
     for i in r:
         x.mtr_no = i
         result = x.non_cum()
-        print result
+        #print result
         r1 = x.obj()
-        print r1
+        #print r1
         finalop = '{'+'\n'+r1+'\n'+result+'\n'+'}'
-        print finalop
+        #print finalop
         time_stamp = datetime.datetime.now()
         filepath = '/home/vishnu/Documents/meter_simulator/output/'
         fname = filepath+str(x.mtr_no)+'-'+str(time_stamp)+'.txt'
         fle =open(fname,"w")
         fle.write(finalop)
-    print df_lp_blck_g
+    #print df_lp_blck_g
+    print '........Generating meter data ........'
+    for i in os.listdir('/home/vishnu/Documents/meter_simulator/output/'):
+        print i
     time.sleep(10)
 #print rp.pre_value_Real_time_Clock_Date_and_Time 
